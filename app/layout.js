@@ -1,13 +1,12 @@
-import type React from "react"
-import type { Metadata } from "next"
+ 
 import { Inter } from "next/font/google"
 import "./globals.css"
 import Sidebar from "@/components/sidebar"
 import MobileNav from "@/components/mobile-nav"
-
+import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata: Metadata = {
+export const metadata  = {
   title: "Business Launchpad",
   description: "Launch and manage your business with powerful tools",
     generator: 'v0.dev'
@@ -15,10 +14,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}) {
   return (
+    <ClerkProvider>
     <html lang="en">
       <body className={inter.className}>
         <div>
@@ -26,6 +24,7 @@ export default function RootLayout({
         </div>
       </body>
     </html>
+    </ClerkProvider>
   )
 }
 

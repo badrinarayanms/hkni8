@@ -4,19 +4,26 @@ import React from 'react'
 
 const layout = ({children}) => {
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-white">
-          {/* Sidebar - hidden on mobile */}
-          <div className="hidden md:block">
-            <Sidebar />
-          </div>
+    <div className="min-h-screen bg-white">
+      {/* Mobile navigation - visible only on mobile */}
+      <div className="lg:hidden">
+        <MobileNav />
+      </div>
 
-          {/* Mobile navigation - visible only on mobile */}
-          <div className="md:hidden">
-            <MobileNav />
-          </div>
-
-          <main className="flex-1 overflow-y-auto p-4 md:p-6 pt-16 md:pt-6">{children}</main>
+      <div className="flex">
+        {/* Sidebar - hidden on mobile */}
+        <div className="hidden lg:block fixed left-0 top-0 h-screen">
+          <Sidebar />
         </div>
+
+        {/* Main content */}
+        <main className="flex-1 w-full lg:pl-64">
+          <div className="p-4 md:p-6 mt-16 lg:mt-0">
+            {children}
+          </div>
+        </main>
+      </div>
+    </div>
   )
 }
 

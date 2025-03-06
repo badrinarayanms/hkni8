@@ -26,32 +26,11 @@ export default function Home() {
     setServices([...services, { title: "", description: "" }]);
   };
 
-  interface Service {
-    title: string;
-    description: string;
-  }
+  
 
-  interface SocialMedia {
-    facebook: string;
-    twitter: string;
-    instagram: string;
-    linkedin: string;
-  }
-
-  const handleServiceChange = (index: number, field: keyof Service, value: string) => {
-    const newServices = [...services];
-    newServices[index][field] = value;
-    setServices(newServices);
-  };
-
-  interface ChangeEvent {
-    target: {
-      name: string;
-      value: string;
-    };
-  }
-
-  const handleChange = (e: ChangeEvent) => {
+   
+  
+  const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "businessName") {
       setBusinessName(value);
