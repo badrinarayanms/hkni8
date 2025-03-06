@@ -1,0 +1,74 @@
+"use client"
+
+import { useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Menu, X, Mail, FileText, DollarSign, BarChart2, Users, MessageSquare, Home } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+
+export default function MobileNav() {
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+
+  const navigation = [
+    { name: "Home", href: "/", icon: Home },
+    { name: "Email Automation", href: "/email-automation", icon: Mail },
+    { name: "Invoice Generator", href: "/invoice-generator", icon: FileText },
+    { name: "Expense Tracker", href: "/expense-tracker", icon: DollarSign },
+    { name: "Competitor Analysis", href: "/competitor-analysis", icon: BarChart2 },
+    { name: "Talent Stealing", href: "/talent-stealing", icon: Users },
+    { name: "Comment Analysis", href: "/comment-analysis", icon: MessageSquare },
+  ]
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 bg-black text-white p-3 flex justify-between items-center">
+      <h2 className="text-lg font-bold">Business Launchpad</h2>
+
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger asChild>
+          <Button variant="ghost" size="icon" className="text-white">
+            <Menu className="h-6 w-6" />
+            <span className="sr-only">Toggle menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-[250px] p-0 bg-black text-white">
+          <div className="p-4 border-b border-gray-800">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold">Business Launchpad</h2>
+              <Button variant="ghost" size="icon" className="text-white" onClick={() => setOpen(false)}>
+                <X className="h-5 w-5" />
+                <span className="sr-only">Close menu</span>
+              </Button>
+            </div>
+          </div>
+          <nav className="flex-1 pt-4">
+            <ul className="space-y-1">
+              {navigation.map((item) => {
+                const isActive = pathname === item.href
+                return (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className={`flex items-center px-4 py-3 text-sm ${
+                        isActive ? "bg-gray-800 text-white" : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                      }`}
+                      onClick={() => setOpen(false)}
+                    >
+                      <item.icon className="mr-3 h-5 w-5" />
+                      {item.name}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+          <div className="p-4 border-t border-gray-800">
+            <p className="text-xs text-gray-400">© 2024 Business Launchpad</p>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  )
+}
+
