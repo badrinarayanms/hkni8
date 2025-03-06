@@ -34,27 +34,11 @@ export default async function BusinessPage({ params }) {
 
       <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-        <div className="container flex  h-16 items-center justify-between">
+        <div className="container flex p-4  h-16 items-center justify-between">
           <Link href="/" className="flex mr-3 items-center gap-2 font-bold text-xl">
             <span className="text-primary">{businessData.name}</span> 
           </Link>
-          <nav className="hidden md:flex  ">
-            <Link href="#" className="text-sm mr-4 font-medium hover:text-primary">
-              Home
-            </Link>
-            <Link href="#services" className="text-sm mr-4 font-medium hover:text-primary">
-              Services
-            </Link>
-            <Link href="#about" className="text-sm mr-4 font-medium hover:text-primary">
-              About
-            </Link>
-            <Link href="#testimonials" className="text-sm mr-4 font-medium hover:text-primary">
-              Testimonials
-            </Link>
-            <Link href="#contact" className="text-sm mr-4 font-medium hover:text-primary">
-              Contact
-            </Link>
-          </nav>
+          
           <div className="flex items-center gap-4">
             
             <Button>Get Started</Button>
@@ -65,17 +49,17 @@ export default async function BusinessPage({ params }) {
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-primary/10 via-primary/5 to-background">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
+            <div className="grid gap-6  ">
               <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl  font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                <div className="space-y-2 items-center">
+                  <h1 className="text-3xl  text-center font-bold tracking-tighter sm:text-xl xl:text-[9px]">
                   {businessData.name}
                   </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                  <p className="max-w-[600px]   text-center text-muted-foreground md:text-xl">
                   {businessData.description}
                   </p>
                 </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <div className="flex flex-col gap-2 mb-10 min-[400px]:flex-row">
                   <Button size="lg" className="px-8">
                     Get Started
                   </Button>
@@ -89,12 +73,12 @@ export default async function BusinessPage({ params }) {
           </div>
         </section>
 
-        <section id="services" className="w-full py-12 md:py-24 lg:py-32">
+        <section id="services" className="w-full py-12 md:py-32 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">What We Offer</h2>
+                <h2 className="text-3xl mt-10 font-bold tracking-tighter sm:text-5xl">What We Offer</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Our comprehensive suite of services designed to help your business succeed
                 </p>
@@ -174,13 +158,6 @@ export default async function BusinessPage({ params }) {
                     </li>
                   </ul>
                 </div>
-              </div>
-              <div className="flex items-center justify-center">
-                <img
-                  alt="About Our Company"
-                  className="aspect-square overflow-hidden rounded-xl object-cover object-center"
-                  src="/placeholder.svg?height=600&width=600"
-                />
               </div>
             </div>
           </div>
