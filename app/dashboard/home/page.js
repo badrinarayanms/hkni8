@@ -1,12 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "@/components/ui/use-toast";
-import { Toaster } from "@/components/ui/toaster";
 
 export default function Home() {
   const [businessName, setBusinessName] = useState("");
@@ -26,15 +20,11 @@ export default function Home() {
     setServices([...services, { title: "", description: "" }]);
   };
 
-   
-
-  const handleServiceChange = (index , field , value ) => {
+  const handleServiceChange = (index, field, value) => {
     const newServices = [...services];
     newServices[index][field] = value;
     setServices(newServices);
   };
-
-   
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,265 +37,270 @@ export default function Home() {
     }
   };
 
- const handleSave = async () => {
-  const businessData = {
-    businessName,
-    businessDescription,
-    services,
-    contactInfo,
-    socialMedia,
-    phoneNumbers,
-    address,
+  const handleSave = async () => {
+    const businessData = {
+      businessName,
+      businessDescription,
+      services,
+      contactInfo,
+      socialMedia,
+      phoneNumbers,
+      address,
+    };
+
+    try {
+      const response = await fetch("/api/saveBusiness", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(businessData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Business data saved successfully!");
+      } else {
+        alert("Failed to save business data.");
+      }
+    } catch (error) {
+      console.error("Error saving business data:", error);
+      alert("An error occurred while saving business data.");
+    }
   };
 
-  try {
-    const response = await fetch("/api/saveBusiness", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(businessData),
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      toast({
-        title: "Success!",
-        description: "Business data saved successfully.",
-      });
-    } else {
-      toast({
-        title: "Error",
-        description: "Failed to save business data.",
-        variant: "destructive",
-      });
-    }
-  } catch (error) {
-    console.error("Error saving business data:", error);
-    toast({
-      title: "Error",
-      description: "An error occurred while saving business data.",
-      variant: "destructive",
-    });
-  }
-};
-
-
-      
-
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 text-black">Business Launchpad</h1>
-      <p className="text-sm sm:text-base text-gray-700 mb-6 sm:mb-8">
+    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
+      <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "20px" }}>Business Launchpad</h1>
+      <p style={{ marginBottom: "20px", color: "#666" }}>
         Welcome to Business Launchpad, your all-in-one platform for launching and managing your business. Start by
         entering your business details below, then explore our suite of tools designed to help your business succeed.
       </p>
 
-      <Card className="border-gray-200">
-        <CardHeader>
-          <CardTitle>Business Information</CardTitle>
-          <CardDescription>Enter the details about your business</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Business Name */}
-            <div className="sm:col-span-2">
-              <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 mb-1">
-                Business Name
+      <div style={{ border: "1px solid #ddd", borderRadius: "8px", padding: "20px" }}>
+        <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "20px" }}>Business Information</h2>
+        <p style={{ marginBottom: "20px", color: "#666" }}>Enter the details about your business</p>
+
+        <div style={{ display: "grid", gap: "20px" }}>
+          {/* Business Name */}
+          <div>
+            <label htmlFor="businessName" style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+              Business Name
+            </label>
+            <input
+              id="businessName"
+              name="businessName"
+              value={businessName}
+              onChange={handleChange}
+              placeholder="Enter your business name"
+              style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }}
+            />
+          </div>
+
+          {/* Business Description */}
+          <div>
+            <label htmlFor="businessDescription" style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+              Business Description
+            </label>
+            <textarea
+              id="businessDescription"
+              name="businessDescription"
+              value={businessDescription}
+              onChange={handleChange}
+              placeholder="Describe your business"
+              style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px", minHeight: "100px" }}
+            />
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <label htmlFor="contactInfo" style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+              Contact Info
+            </label>
+            <input
+              id="contactInfo"
+              name="contactInfo"
+              value={contactInfo}
+              onChange={handleChange}
+              placeholder="Enter your contact information"
+              style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }}
+            />
+          </div>
+
+          {/* Social Media Links */}
+          <div>
+            <label htmlFor="facebook" style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+              Facebook
+            </label>
+            <input
+              id="facebook"
+              name="facebook"
+              value={socialMedia.facebook}
+              onChange={(e) => setSocialMedia({ ...socialMedia, facebook: e.target.value })}
+              placeholder="Enter Facebook link"
+              style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="twitter" style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+              Twitter
+            </label>
+            <input
+              id="twitter"
+              name="twitter"
+              value={socialMedia.twitter}
+              onChange={(e) => setSocialMedia({ ...socialMedia, twitter: e.target.value })}
+              placeholder="Enter Twitter link"
+              style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="instagram" style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+              Instagram
+            </label>
+            <input
+              id="instagram"
+              name="instagram"
+              value={socialMedia.instagram}
+              onChange={(e) => setSocialMedia({ ...socialMedia, instagram: e.target.value })}
+              placeholder="Enter Instagram link"
+              style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="linkedin" style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+              LinkedIn
+            </label>
+            <input
+              id="linkedin"
+              name="linkedin"
+              value={socialMedia.linkedin}
+              onChange={(e) => setSocialMedia({ ...socialMedia, linkedin: e.target.value })}
+              placeholder="Enter LinkedIn link"
+              style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }}
+            />
+          </div>
+
+          {/* Phone Numbers */}
+          {phoneNumbers.map((phone, index) => (
+            <div key={index}>
+              <label htmlFor={`phone-${index}`} style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+                Phone Number {index + 1}
               </label>
-              <Input
-                id="businessName"
-                name="businessName"
-                value={businessName}
-                onChange={handleChange}
-                placeholder="Enter your business name"
-                className="border-gray-300 focus:border-black w-full"
+              <input
+                id={`phone-${index}`}
+                name="phone"
+                value={phone}
+                onChange={(e) => {
+                  const newPhoneNumbers = [...phoneNumbers];
+                  newPhoneNumbers[index] = e.target.value;
+                  setPhoneNumbers(newPhoneNumbers);
+                }}
+                placeholder="Enter phone number"
+                style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }}
               />
             </div>
+          ))}
 
-            {/* Business Description */}
-            <div className="sm:col-span-2">
-              <label htmlFor="businessDescription" className="block text-sm font-medium text-gray-700 mb-1">
-                Business Description
-              </label>
-              <Textarea
-                id="businessDescription"
-                name="businessDescription"
-                value={businessDescription}
-                onChange={handleChange}
-                placeholder="Describe your business"
-                className="border-gray-300 focus:border-black w-full"
-              />
-            </div>
+          <button
+            onClick={() => setPhoneNumbers([...phoneNumbers, ""])}
+            style={{
+              width: "100%",
+              padding: "8px",
+              backgroundColor: "#3b82f6",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            + Add Phone Number
+          </button>
 
-            {/* Contact Info */}
-            <div className="sm:col-span-2">
-              <label htmlFor="contactInfo" className="block text-sm font-medium text-gray-700 mb-1">
-                Contact Info
-              </label>
-              <Input
-                id="contactInfo"
-                name="contactInfo"
-                value={contactInfo}
-                onChange={handleChange}
-                placeholder="Enter your contact information"
-                className="border-gray-300 focus:border-black w-full"
-              />
-            </div>
+          {/* Address */}
+          <div>
+            <label htmlFor="address" style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+              Address
+            </label>
+            <textarea
+              id="address"
+              name="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Enter your business address"
+              style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px", minHeight: "100px" }}
+            />
+          </div>
 
-            {/* Social Media Links */}
-            <div className="sm:col-span-2">
-              <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 mb-1">
-                Facebook
-              </label>
-              <Input
-                id="facebook"
-                name="facebook"
-                value={socialMedia.facebook}
-                onChange={(e) => setSocialMedia({ ...socialMedia, facebook: e.target.value })}
-                placeholder="Enter Facebook link"
-                className="border-gray-300 focus:border-black w-full"
-              />
-            </div>
-
-            <div className="sm:col-span-2">
-              <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 mb-1">
-                Twitter
-              </label>
-              <Input
-                id="twitter"
-                name="twitter"
-                value={socialMedia.twitter}
-                onChange={(e) => setSocialMedia({ ...socialMedia, twitter: e.target.value })}
-                placeholder="Enter Twitter link"
-                className="border-gray-300 focus:border-black w-full"
-              />
-            </div>
-
-            <div className="sm:col-span-2">
-              <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 mb-1">
-                Instagram
-              </label>
-              <Input
-                id="instagram"
-                name="instagram"
-                value={socialMedia.instagram}
-                onChange={(e) => setSocialMedia({ ...socialMedia, instagram: e.target.value })}
-                placeholder="Enter Instagram link"
-                className="border-gray-300 focus:border-black w-full"
-              />
-            </div>
-
-            <div className="sm:col-span-2">
-              <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700 mb-1">
-                LinkedIn
-              </label>
-              <Input
-                id="linkedin"
-                name="linkedin"
-                value={socialMedia.linkedin}
-                onChange={(e) => setSocialMedia({ ...socialMedia, linkedin: e.target.value })}
-                placeholder="Enter LinkedIn link"
-                className="border-gray-300 focus:border-black w-full"
-              />
-            </div>
-
-            {/* Phone Numbers */}
-            {phoneNumbers.map((phone, index) => (
-              <div key={index} className="sm:col-span-2">
-                <label htmlFor={`phone-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone Number {index + 1}
+          {/* Services */}
+          {services.map((service, index) => (
+            <div key={index} style={{ display: "grid", gap: "20px" }}>
+              <div>
+                <label htmlFor={`serviceTitle-${index}`} style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+                  Service Title
                 </label>
-                <Input
-                  id={`phone-${index}`}
-                  name="phone"
-                  value={phone}
-                  onChange={(e) => {
-                    const newPhoneNumbers = [...phoneNumbers];
-                    newPhoneNumbers[index] = e.target.value;
-                    setPhoneNumbers(newPhoneNumbers);
-                  }}
-                  placeholder="Enter phone number"
-                  className="border-gray-300 focus:border-black w-full"
+                <input
+                  id={`serviceTitle-${index}`}
+                  name="serviceTitle"
+                  value={service.title}
+                  onChange={(e) => handleServiceChange(index, "title", e.target.value)}
+                  placeholder="Enter your service title"
+                  style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }}
                 />
               </div>
-            ))}
 
-            <Button
-              onClick={() => setPhoneNumbers([...phoneNumbers, ""])}
-              className="bg-blue-500 hover:bg-blue-600 text-white w-full mt-2"
-            >
-              + Add Phone Number
-            </Button>
-
-            {/* Address */}
-            <div className="sm:col-span-2">
-              <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
-                Address
-              </label>
-              <Textarea
-                id="address"
-                name="address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Enter your business address"
-                className="border-gray-300 focus:border-black w-full"
-              />
-            </div>
-
-            {/* Services */}
-            {services.map((service, index) => (
-              <div key={index} className="sm:col-span-2 space-y-4">
-                <div className="sm:col-span-1">
-                  <label htmlFor={`serviceTitle-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                    Service Title
-                  </label>
-                  <Input
-                    id={`serviceTitle-${index}`}
-                    name="serviceTitle"
-                    value={service.title}
-                    onChange={(e) => handleServiceChange(index, "title", e.target.value)}
-                    placeholder="Enter your service title"
-                    className="border-gray-300 focus:border-black w-full"
-                  />
-                </div>
-
-                <div className="sm:col-span-1">
-                  <label
-                    htmlFor={`serviceDescription-${index}`}
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Service Description
-                  </label>
-                  <Textarea
-                    id={`serviceDescription-${index}`}
-                    name="serviceDescription"
-                    value={service.description}
-                    onChange={(e) => handleServiceChange(index, "description", e.target.value)}
-                    placeholder="Describe your service"
-                    className="border-gray-300 focus:border-black w-full h-full min-h-[80px]"
-                  />
-                </div>
+              <div>
+                <label htmlFor={`serviceDescription-${index}`} style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
+                  Service Description
+                </label>
+                <textarea
+                  id={`serviceDescription-${index}`}
+                  name="serviceDescription"
+                  value={service.description}
+                  onChange={(e) => handleServiceChange(index, "description", e.target.value)}
+                  placeholder="Describe your service"
+                  style={{ width: "100%", padding: "8px", border: "1px solid #ddd", borderRadius: "4px", minHeight: "100px" }}
+                />
               </div>
-            ))}
-
-            {/* Add Service Button */}
-            <div className="sm:col-span-2">
-              <Button
-                onClick={addService}
-                className="bg-green-500 hover:bg-green-600 text-white w-full"
-              >
-                + Add Service
-              </Button>
             </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button onClick={handleSave} className="bg-black hover:bg-gray-800 text-white">
-            Save Business
-          </Button>
-        </CardFooter>
-      </Card>
-      <Toaster />
+          ))}
+
+          {/* Add Service Button */}
+          <button
+            onClick={addService}
+            style={{
+              width: "100%",
+              padding: "8px",
+              backgroundColor: "#10b981",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            + Add Service
+          </button>
+        </div>
+
+        {/* Save Button */}
+        <button
+          onClick={handleSave}
+          style={{
+            width: "100%",
+            padding: "8px",
+            backgroundColor: "#000",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            marginTop: "20px",
+          }}
+        >
+          Save Business
+        </button>
+      </div>
     </div>
   );
 }
