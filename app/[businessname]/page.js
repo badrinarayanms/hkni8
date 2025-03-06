@@ -197,25 +197,25 @@ export default async function BusinessPage({ params }) {
                     "Our online presence has grown significantly since we started working together. Highly recommend their services to any business.",
                 },
               ].map((testimonial, index) => (
-                <Card key={index} className="relative overflow-hidden rounded-lg border">
-                  <CardContent className="p-6">
-                    <div className="flex mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                      ))}
+                <div className="m-4"><Card key={index} className="relative overflow-hidden rounded-lg border ">
+                <CardContent className="p-6">
+                  <div className="flex mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="mb-4 text-muted-foreground">"{testimonial.testimonial}"</p>
+                  <div className="flex items-center gap-4">
+                    <div className="rounded-full bg-muted h-10 w-10 flex items-center justify-center">
+                      <span className="text-sm font-medium">{testimonial.name.charAt(0)}</span>
                     </div>
-                    <p className="mb-4 text-muted-foreground">"{testimonial.testimonial}"</p>
-                    <div className="flex items-center gap-4">
-                      <div className="rounded-full bg-muted h-10 w-10 flex items-center justify-center">
-                        <span className="text-sm font-medium">{testimonial.name.charAt(0)}</span>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-semibold">{testimonial.name}</h4>
-                        <p className="text-xs text-muted-foreground">{testimonial.company}</p>
-                      </div>
+                    <div>
+                      <h4 className="text-sm font-semibold">{testimonial.name}</h4>
+                      <p className="text-xs text-muted-foreground">{testimonial.company}</p>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </CardContent>
+              </Card></div>
               ))}
             </div>
           </div>
@@ -237,11 +237,12 @@ export default async function BusinessPage({ params }) {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
                     <Phone className="h-5 w-5 text-primary" />
-                    <span>+1 (555) 123-4567</span>
+                    {console.log(businessData.phone_number)}
+                    <span>{businessData.phone_number}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Mail className="h-5 w-5 text-primary" />
-                    <span>contact@yourbusiness.com</span>
+                    <span>{businessData.contact_info}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-5 w-5 text-primary" />
@@ -386,7 +387,7 @@ export default async function BusinessPage({ params }) {
       <footer className="w-full border-t py-6 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            © 2023 YourBusiness. All rights reserved.
+            © 2025 YourBusiness. All rights reserved.
           </p>
           <nav className="flex gap-4 sm:gap-6">
             <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">

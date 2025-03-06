@@ -13,23 +13,45 @@ export default function Home() {
   const [businessDescription, setBusinessDescription] = useState("");
   const [services, setServices] = useState([{ title: "", description: "" }]);
   const [contactInfo, setContactInfo] = useState("");
+  const [socialMedia, setSocialMedia] = useState({
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    linkedin: "",
+  });
+  const [phoneNumbers, setPhoneNumbers] = useState([""]);
+  const [address, setAddress] = useState("");
 
-  // Function to add a new service field
   const addService = () => {
     setServices([...services, { title: "", description: "" }]);
   };
 
-  // Function to handle changes in service fields
-  type ServiceField = "title" | "description";
+  interface Service {
+    title: string;
+    description: string;
+  }
 
-  const handleServiceChange = (index: number, field: ServiceField, value: string) => {
+  interface SocialMedia {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+    linkedin: string;
+  }
+
+  const handleServiceChange = (index: number, field: keyof Service, value: string) => {
     const newServices = [...services];
     newServices[index][field] = value;
     setServices(newServices);
   };
 
-  // Function to handle changes in business name and description
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  interface ChangeEvent {
+    target: {
+      name: string;
+      value: string;
+    };
+  }
+
+  const handleChange = (e: ChangeEvent) => {
     const { name, value } = e.target;
     if (name === "businessName") {
       setBusinessName(value);
@@ -40,45 +62,50 @@ export default function Home() {
     }
   };
 
-  // Function to save business data
-  const handleSave = async () => {
-    const businessData = {
-      businessName,
-      businessDescription,
-      services,
-      contactInfo,
-    };
-    
-    try {
-      const response = await fetch("/api/saveBusiness", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(businessData),
+ const handleSave = async () => {
+  const businessData = {
+    businessName,
+    businessDescription,
+    services,
+    contactInfo,
+    socialMedia,
+    phoneNumbers,
+    address,
+  };
+
+  try {
+    const response = await fetch("/api/saveBusiness", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(businessData),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      toast({
+        title: "Success!",
+        description: "Business data saved successfully.",
       });
-
-      const result = await response.json();
-
-      if (result.success) {
-        toast({
-          title: "Success!",
-          description: "Business data saved successfully.",
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to save business data.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Error saving business data:", error);
+    } else {
       toast({
         title: "Error",
-        description: "An error occurred while saving business data.",
+        description: "Failed to save business data.",
         variant: "destructive",
       });
     }
-  };
+  } catch (error) {
+    console.error("Error saving business data:", error);
+    toast({
+      title: "Error",
+      description: "An error occurred while saving business data.",
+      variant: "destructive",
+    });
+  }
+};
+
+
+      
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
@@ -136,6 +163,106 @@ export default function Home() {
                 value={contactInfo}
                 onChange={handleChange}
                 placeholder="Enter your contact information"
+                className="border-gray-300 focus:border-black w-full"
+              />
+            </div>
+
+            {/* Social Media Links */}
+            <div className="sm:col-span-2">
+              <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 mb-1">
+                Facebook
+              </label>
+              <Input
+                id="facebook"
+                name="facebook"
+                value={socialMedia.facebook}
+                onChange={(e) => setSocialMedia({ ...socialMedia, facebook: e.target.value })}
+                placeholder="Enter Facebook link"
+                className="border-gray-300 focus:border-black w-full"
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 mb-1">
+                Twitter
+              </label>
+              <Input
+                id="twitter"
+                name="twitter"
+                value={socialMedia.twitter}
+                onChange={(e) => setSocialMedia({ ...socialMedia, twitter: e.target.value })}
+                placeholder="Enter Twitter link"
+                className="border-gray-300 focus:border-black w-full"
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 mb-1">
+                Instagram
+              </label>
+              <Input
+                id="instagram"
+                name="instagram"
+                value={socialMedia.instagram}
+                onChange={(e) => setSocialMedia({ ...socialMedia, instagram: e.target.value })}
+                placeholder="Enter Instagram link"
+                className="border-gray-300 focus:border-black w-full"
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700 mb-1">
+                LinkedIn
+              </label>
+              <Input
+                id="linkedin"
+                name="linkedin"
+                value={socialMedia.linkedin}
+                onChange={(e) => setSocialMedia({ ...socialMedia, linkedin: e.target.value })}
+                placeholder="Enter LinkedIn link"
+                className="border-gray-300 focus:border-black w-full"
+              />
+            </div>
+
+            {/* Phone Numbers */}
+            {phoneNumbers.map((phone, index) => (
+              <div key={index} className="sm:col-span-2">
+                <label htmlFor={`phone-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number {index + 1}
+                </label>
+                <Input
+                  id={`phone-${index}`}
+                  name="phone"
+                  value={phone}
+                  onChange={(e) => {
+                    const newPhoneNumbers = [...phoneNumbers];
+                    newPhoneNumbers[index] = e.target.value;
+                    setPhoneNumbers(newPhoneNumbers);
+                  }}
+                  placeholder="Enter phone number"
+                  className="border-gray-300 focus:border-black w-full"
+                />
+              </div>
+            ))}
+
+            <Button
+              onClick={() => setPhoneNumbers([...phoneNumbers, ""])}
+              className="bg-blue-500 hover:bg-blue-600 text-white w-full mt-2"
+            >
+              + Add Phone Number
+            </Button>
+
+            {/* Address */}
+            <div className="sm:col-span-2">
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                Address
+              </label>
+              <Textarea
+                id="address"
+                name="address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Enter your business address"
                 className="border-gray-300 focus:border-black w-full"
               />
             </div>
