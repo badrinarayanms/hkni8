@@ -12,13 +12,13 @@ export default function MobileNav() {
   const [open, setOpen] = useState(false)
 
   const navigation = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "Email Automation", href: "/email-automation", icon: Mail },
-    { name: "Invoice Generator", href: "/invoice-generator", icon: FileText },
-    { name: "Expense Tracker", href: "/expense-tracker", icon: DollarSign },
-    { name: "Competitor Analysis", href: "/competitor-analysis", icon: BarChart2 },
-    { name: "Talent Stealing", href: "/talent-stealing", icon: Users },
-    { name: "Comment Analysis", href: "/comment-analysis", icon: MessageSquare },
+    { name: "Home", href: "/dashboard/home", icon: Home },
+    { name: "Email Automation", href: "/dashboard/email-automation", icon: Mail },
+    { name: "Invoice Generator", href: "/dashboard/invoice-generator", icon: FileText },
+    { name: "Expense Tracker", href: "/dashboard/expense-tracker", icon: DollarSign },
+    { name: "Competitor Analysis", href: "/dashboard/competitor-analysis", icon: BarChart2 },
+    { name: "Talent Stealing", href: "/dashboard/talent-stealing", icon: Users },
+    { name: "Comment Analysis", href: "/dashboard/comment-analysis", icon: MessageSquare },
   ]
 
   return (
