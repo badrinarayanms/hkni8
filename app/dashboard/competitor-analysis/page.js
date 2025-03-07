@@ -35,42 +35,45 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-100">
-      <div className="w-full  p-6 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center text-gray-900 mb-4">Competitor Insights</h1>
+    <div  style={{borderRadius:10,marginTop:50}} className="flex mt-32 w-full rounded-xl bg-[#020617]  flex-col items-center justify-center  px-4  ">
+      <div className="w-full  p-6 mt-32   shadow-lg bg-[#020617]  border border-white rounded-xl">
+        <h1 className="text-2xl font-bold text-center text-white mb-4">Competitor Insights</h1>
         <div className="space-y-4">
           <div>
-            <label htmlFor="companyType" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="companyType" className="block text-sm font-medium text-white mb-5">
               Type of Company
             </label>
             <Input
               id="companyType"
+
               value={companyType}
               onChange={(e) => setCompanyType(e.target.value)}
               placeholder="e.g., E-commerce"
-              className="w-full mt-1"
+              className="w-full mt-1 text-black"
+              style={{borderRadius:5}}
             />
           </div>
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="location" className="text-white mb-5 block text-sm font-medium  ">
               Location
             </label>
             <Input
               id="location"
               value={location}
+
               onChange={(e) => setLocation(e.target.value)}
               placeholder="e.g., New York, United States"
-              className="w-full mt-1"
+              className="w-full mt-1 text-black " style={{borderRadius:5}}
             />
           </div>
-          <Button onClick={handleSubmit} disabled={loading} className="w-full flex items-center justify-center">
+          <Button onClick={handleSubmit} disabled={loading} className="w-full bg-[#0F172A] rounded-xl text-white py-2 px-4   focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
             {loading ? <Loader2 className="animate-spin mr-2" /> : "Get Insights"}
           </Button>
         </div>
         {insights && (
-          <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm transition-opacity duration-300">
-            <h2 className="text-lg font-semibold text-gray-900">Insights:</h2>
-            <div className="mt-2 text-gray-700 whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: insights }} />
+          <div className="mt-10 p-4 bg-gray-50 border border-gray-200 rounded-xl  shadow-sm transition-opacity duration-300">
+            <h2 className="text-lg font-semibold text-white text-center ">Insights</h2>
+            <div className="mt-2 text-[#0F172A] whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: insights }} />
           </div>
         )}
       </div>

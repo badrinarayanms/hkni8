@@ -1,117 +1,38 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const Mailjet = require("node-mailjet");
-const csv = require("csv-parser");
-const fs = require("fs");
-const readline = require("readline");
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-// Initialize Google Gemini and Mailjet clients
-const genaiClient = new GoogleGenerativeAI(process.env.GEMINI_API_KEY); // Replace with your Gemini API key
-const mailjet = Mailjet.apiConnect("6dbb90b4bc6d1665e56f503a2a14b962",
-  "def165b65508f5cc7bf2159c63c6aaca"); // Replace with your Mailjet keys
+export default function EmailAutomation() {
+  return (
+    <div className="w-full max-w-4xl mx-auto px-4  mt-10 sm:px-6">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 text-white">Email Automation</h1>
+      <p className="text-sm sm:text-base text-center text-white mb-6 sm:mb-8">
+        Streamline your communication with customers and prospects using our powerful email automation tools.
+      </p>
 
-// Function to get user input for the prompt template
-function getUserInput(question) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-[#0F172A] bg-[#020617] ">
+        <Card className="border-[#0F172A] bg-[#020617] rounded-lg "style={{borderRadius:10}}>
+          <CardHeader>
+            <CardTitle className="text-xl text-white">Email Campaigns</CardTitle>
+            <CardDescription>Create and manage email marketing campaigns</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-700 text-sm sm:text-base">
+              No campaigns created yet. Click the button below to create your first email campaign.
+            </p>
+          </CardContent>
+        </Card>
 
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => {
-      rl.close();
-      resolve(answer);
-    });
-  });
+        <Card className="border-[#0F172A] bg-[#020617]" style={{borderRadius:10}}>
+          <CardHeader>
+            <CardTitle className="text-white">Automated Sequences</CardTitle>
+            <CardDescription>Set up triggered email sequences based on customer actions</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-700 text-sm sm:text-base">
+              No automated sequences created yet. Get started by creating your first sequence.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
 }
-
-// Function to generate personalized email content using Google Gemini
-async function generatePersonalizedEmail(recipient, promptTemplate) {
-  const model = genaiClient.getGenerativeModel({ model: "gemini-1.5-pro" });
-
-  // Replace placeholders in the prompt template with recipient data
-  const prompt = `Write a personalized email for ${recipient.name}  in context with ${promptTemplate }
-
-Email Content:
-- Subject: Personalized subject line
-- Body: Personalized email body with a call-to-action`;
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  return response.text();
-}
-
-// Function to send email using Mailjet
-async function sendEmail(recipient, emailContent) {
-  const subject = emailContent.split("\n")[0].replace("Subject: ", "");
-  const body = emailContent.split("\n").slice(1).join("\n");
-
-  const request = mailjet.post("send", { version: "v3.1" }).request({
-    Messages: [
-      {
-        From: {
-          Email: "ssvidip@gmail.com",
-          Name: "S.S.Vidip Kumar",
-        },
-        To: [
-          {
-            Email: recipient.email,
-            Name: recipient.name,
-          },
-        ],
-        Subject: subject,
-        TextPart: body,
-      },
-    ],
-  });
-
-  try {
-    const response = await request;
-    console.log(`Email sent to ${recipient.name} (${recipient.email})`);
-    console.log("Mailjet Response:", response.body);
-  } catch (error) {
-    console.error(`Error sending email to ${recipient.name}:`, error);
-  }
-}
-
-// Main function to handle the workflow
-async function main() {
-  const recipients = [];
-
-  // Get user input for the prompt template
-  const promptTemplate = await getUserInput(
-    "Enter your email prompt template (use {name}, {location}, and {pastInteraction} as placeholders):\n"
-  );
-
-  console.log("Using prompt template:", promptTemplate);
-
-  // Read and parse the CSV file
-  fs.createReadStream("recipients.csv")
-    .pipe(csv())
-    .on("data", (row) => {
-      recipients.push({
-        name: row.name,
-        email: row.email,
-        location: row.location,
-        pastInteraction: row.pastInteraction,
-      });
-    })
-    .on("end", async () => {
-      console.log("Recipient data loaded from CSV file.");
-
-      // Process each recipient
-      for (const recipient of recipients) {
-        try {
-          // Generate personalized email content
-          const emailContent = await generatePersonalizedEmail(recipient, promptTemplate);
-          console.log(`Generated Email for ${recipient.name}:\n`, emailContent);
-
-          // Send the email
-          await sendEmail(recipient, emailContent);
-        } catch (error) {
-          console.error(`Error processing ${recipient.name}:`, error);
-        }
-      }
-    });
-}
-
-// Run the main function
-main();

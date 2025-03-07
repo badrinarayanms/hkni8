@@ -2,16 +2,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function InvoiceGenerator() {
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 text-black">Invoice Generator</h1>
+    <div className="w-full max-w-4xl mx-auto px-4 mt-10 sm:px-6">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 text-white">Invoice Generator</h1>
       <p className="text-sm sm:text-base text-gray-700 mb-6 sm:mb-8">
         Create professional invoices quickly and easily with our invoice generator tool.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-        <Card className="border-gray-200">
+         <Card className="border-[#0F172A] bg-[#020617] rounded-lg "style={{borderRadius:10}}>
           <CardHeader>
-            <CardTitle className="text-xl">Recent Invoices</CardTitle>
+            <CardTitle className="text-xl text-white">Recent Invoices</CardTitle>
             <CardDescription>View and manage your recently created invoices</CardDescription>
           </CardHeader>
           <CardContent>
@@ -21,9 +21,9 @@ export default function InvoiceGenerator() {
           </CardContent>
         </Card>
 
-        <Card className="border-gray-200">
+         <Card className="border-[#0F172A] bg-[#020617] rounded-lg "style={{borderRadius:10}}>
           <CardHeader>
-            <CardTitle className="text-xl">Invoice Templates</CardTitle>
+            <CardTitle className="text-xl text-white">Invoice Templates</CardTitle>
             <CardDescription>Choose from a variety of professional invoice templates</CardDescription>
           </CardHeader>
           <CardContent>
