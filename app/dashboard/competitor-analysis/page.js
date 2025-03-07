@@ -71,9 +71,14 @@ export default function Home() {
           </Button>
         </div>
         {insights && (
-          <div className="mt-10 p-4 bg-gray-50 border border-gray-200 rounded-xl  shadow-sm transition-opacity duration-300">
-            <h2 className="text-lg font-semibold text-white text-center ">Insights</h2>
-            <div className="mt-2 text-[#0F172A] whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: insights }} />
+          <div className="mt-10 p-4 border border-gray-200 rounded-xl shadow-sm transition-opacity duration-300 bg-black">
+            <h2 className="text-lg font-semibold   text-center mb-4">
+              Insights
+            </h2>
+            <div 
+              className="mt-2 rounded-lg p-4" 
+              dangerouslySetInnerHTML={{ __html: insights }} 
+            />
           </div>
         )}
       </div>

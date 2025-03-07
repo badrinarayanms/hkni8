@@ -42,6 +42,8 @@ async function generateInsights(data) {
   - Use bulleted lists for readability.
   - Highlight key points with bold text.
   -dont mentio it uses html css and other stuffs
+  -give text in black and white bg
+  or white text black bg
 
   Data:
   ${JSON.stringify(data, null, 2)}`;

@@ -72,6 +72,7 @@ export default function TalentSearch() {
                 value={place}
                 onChange={(e) => setPlace(e.target.value)}
                 placeholder="Location text-black"
+                style={{color:'black'}}
                 className="w-full mt-1"
               />
             </div>

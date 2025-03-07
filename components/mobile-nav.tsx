@@ -55,7 +55,7 @@ export default function MobileNav() {
     { name: "Invoice Generator", href: "/dashboard/invoice-generator", icon: FileText },
     { name: "Expense Tracker", href: "/dashboard/expense-tracker", icon: DollarSign },
     { name: "Competitor Analysis", href: "/dashboard/competitor-analysis", icon: BarChart2 },
-    { name: "Talent Search", href: "/dashboard/talent-search", icon: Users },
+    { name: "Talent Search", href: "/dashboard/talentsearch", icon: Users },
   ]
 
   const handleViewMySite = () => {
